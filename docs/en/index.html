@@ -1,0 +1,257 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Genkit Hands-on</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id="G-2P6VCDLG05"
+                  id="en"
+                  title="Genkit Hands-on"
+                  environment="web"
+                  feedback-link="https://github.com/tanabee/genkit-codelab/issues">
+    
+      <google-codelab-step label="Intro" duration="1">
+        <p>In this codelab, you&#39;ll start with the initial setup of Genkit, then operate features like Code Execution and Function Calling in a local environment. Although it&#39;s very straightforward, this codelab experience will show you how efficiently you can develop using Genkit.</p>
+<h2 is-upgraded>Prerequisites</h2>
+<ul>
+<li>Node.js v20+</li>
+<li>npm</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Get Gemini API key" duration="2">
+        <p>Please access the following site to get the Gemini API key.</p>
+<ul>
+<li><a href="https://aistudio.google.com/app/apikey" target="_blank">Get API key | Gemini</a></li>
+</ul>
+<p>As of November 2024, the free plan of the Gemini API is sufficient for this hands-on session, so there&#39;s no need for a paid plan.</p>
+<ul>
+<li><a href="https://ai.google.dev/pricing" target="_blank">Pricing models | Gemini</a></li>
+</ul>
+<p>Run the following curl command in your terminal, replacing <code>YOUR_API_KEY</code> with your actual key, and confirm that a response is successfully returned.</p>
+<pre><code language="language-sh" class="language-sh">curl \
+  -H &#39;Content-Type: application/json&#39; \
+  -d &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Explain Firebase in under 100 words.&#34;}]}]}&#39; \
+  -X POST &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Hello Genkit!" duration="3">
+        <p>Run the following commands to initialize the project.</p>
+<pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
+npm init -y
+npm i --dev genkit-cli@0.9.0-dev.4 tsx typescript
+npm i --save genkit@0.9.0-dev.4 @genkit-ai/googleai@0.9.0-dev.4
+</code></pre>
+<p>Set the Gemini API key you obtained earlier as an environment variable.</p>
+<pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
+</code></pre>
+<p>Create a file called <code>src/index.ts</code> and paste the following code:</p>
+<pre><code language="language-JavaScript" class="language-JavaScript">import { genkit, z } from &#39;genkit&#39;
+import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+
+const ai = genkit({
+  plugins: [googleAI()],
+  model: gemini15Flash,
+})
+
+ai.defineFlow({
+  name: &#39;mainFlow&#39;,
+  inputSchema: z.string(),
+}, async (input) =&gt; {
+  const { text } = await ai.generate(input)
+  return text
+})
+
+ai.startFlowServer()
+</code></pre>
+<p>以下のコマンドで Genkit を起動します。</p>
+<pre><code language="language-sh" class="language-sh">npx genkit start -- npx tsx --watch src/index.ts
+</code></pre>
+<p>Access <a href="http://localhost:4000" target="_blank">http://localhost:4000</a> to open Genkit Developer Tools.</p>
+<p>In the Flows menu, select <code>mainFlow</code> defined in the code above. Enter a string and select the <code>Run</code> button to send a prompt to Gemini.</p>
+<p class="image-container"><img alt="Hello Genkit! | Flow" src="img/c1d19bc6e8e53460.png"></p>
+<p>Press the <code>View trace</code> button to see detailed Input and Output from the Gemini API.</p>
+<p class="image-container"><img alt="Hello Genkit! | Trace" src="img/25b050855fb6cb2c.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Code Execution" duration="3">
+        <p>With Gemini&#39;s Code Execution, you can generate and execute Python code. Only one line needs to be changed.</p>
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash,
++  model: gemini15Flash.withConfig({ codeExecution: true }),
+</code></pre>
+<p>Open Developer Tools, input prompts that require programming into mainFlow, and try the following requests:</p>
+<ul>
+<li><code>Simulate the ratio of heads to tails after flipping a coin 100,000 times.</code></li>
+<li><code>Calculate the 100th Fibonacci number.</code></li>
+<li><code>Execute the following code in Python: print('Hello World')</code></li>
+</ul>
+<p>Here is the result.</p>
+<p class="image-container"><img alt="Code Execution | Flows" src="img/6742c6a3692f788d.png"></p>
+<p>In the View trace menu, you can see the Python code that was executed.</p>
+<p class="image-container"><img alt="Code Execution | Trace" src="img/475d884cfc3089c5.png"></p>
+<h2 is-upgraded>Challenge</h2>
+<p>Try thinking up prompts that require Code Execution and give them a try.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Function Calling" duration="5">
+        <p>Function Calling allows generative AI to call predefined functions as needed to fulfill user requests. Here are some possible use cases:</p>
+<ul>
+<li>Extracting content from URLs or PDFs included in user requests.</li>
+<li>Calling external APIs, such as: <ul>
+<li>Adding to a calendar</li>
+<li>Sending notifications to a chat service</li>
+<li>Searching internal documents</li>
+<li>Google search</li>
+</ul>
+</li>
+</ul>
+<p>In this codelab, you&#39;ll implement a tool to extract the contents of a URL and try calling it with Function Calling using <a href="https://www.npmjs.com/package/cheerio" target="_blank">Cheerio</a> as the HTML parser.</p>
+<pre><code language="language-sh" class="language-sh">npm i --save cheerio
+</code></pre>
+<p>Remove Code Execution for now.</p>
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash.withConfig({ codeExecution: true }),
++  model: gemini15Flash,
+</code></pre>
+<p>Import cheerio.</p>
+<pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;;
+  import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
++ import * as cheerio from &#39;cheerio&#39;
+</code></pre>
+<p>Add the following function under the definition of the <code>ai</code> variable in <code>src/index.ts</code>. The first argument specifies the tool&#39;s configuration values, and the second argument specifies the process to execute.</p>
+<pre><code language="language-javascript" class="language-javascript">const webLoader = ai.defineTool(
+  {
+    name: &#34;webLoader&#34;,
+    description:
+      &#34;When a URL is received, it accesses the URL and retrieves the content inside.&#34;,
+    inputSchema: z.object({ url: z.string() }),
+    outputSchema: z.string(),
+  },
+  async ({ url }) =&gt; {
+    const res = await fetch(url);
+    const html = await res.text();
+    const $ = cheerio.load(html);
+    $(&#34;script, style, noscript&#34;).remove();
+    if ($(&#34;article&#34;)) {
+      return $(&#34;article&#34;).text();
+    }
+    return $(&#34;body&#34;).text();
+  },
+)
+</code></pre>
+<p>Specify <code>tools</code> in the <code>generate</code> method parameter and include <code>webLoader</code> in the array. Since <code>tools</code> can be specified as an array, you can set multiple tools, and generative AI will select the necessary tool for execution based on the <code>description</code> in <code>defineTool</code>. Just like prompt engineering, tuning description is essential.</p>
+<pre><code language="language-javascript" class="language-javascript">-  const { text } = await ai.generate(input)
++  const { text } = await ai.generate({
++    prompt: input,
++    tools: [webLoader],
++  })
+</code></pre>
+<p>The complete source code is as follows:</p>
+<pre><code language="language-javascript" class="language-javascript">import { genkit, z } from &#39;genkit&#39;;
+import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+import * as cheerio from &#39;cheerio&#39;
+
+const ai = genkit({
+  plugins: [googleAI()],
+  model: gemini15Flash,
+})
+
+const webLoader = ai.defineTool(
+  {
+    name: &#34;webLoader&#34;,
+    description:
+      &#34;When a URL is received, it accesses the URL and retrieves the content inside.&#34;,
+    inputSchema: z.object({ url: z.string() }),
+    outputSchema: z.string(),
+  },
+  async ({ url }) =&gt; {
+    const res = await fetch(url);
+    const html = await res.text();
+    const $ = cheerio.load(html);
+    $(&#34;script, style, noscript&#34;).remove();
+    if ($(&#34;article&#34;)) {
+      return $(&#34;article&#34;).text();
+    }
+    return $(&#34;body&#34;).text();
+  },
+)
+
+ai.defineFlow({
+  name: &#39;mainFlow&#39;,
+  inputSchema: z.string(),
+}, async (input) =&gt; {
+  const { text } = await ai.generate({
+    prompt: input,
+    tools: [webLoader],
+  })
+  return text
+})
+
+ai.startFlowServer()
+</code></pre>
+<p>Now that the code is complete, open Developer Tools. You&#39;ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.</p>
+<p>URL: <a href="https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179" target="_blank">https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</a></p>
+<p class="image-container"><img alt="Function Calling | Tool" src="img/86295bf724e12421.png"></p>
+<p>The content of the URL was extracted. In Genkit Developer Tools, you can test tools individually to verify their functionality before incorporating them into a Flow, making development more efficient.</p>
+<p>Next, select mainFlow from the Flow menu. Enter the following prompt and execute it.</p>
+<p>Prompt: <code>Summarize the content of the following URL in less than 200 characters. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</code></p>
+<p>You can see that the content has been summarized based on the extracted content.</p>
+<p class="image-container"><img alt="Function Calling | Flow" src="img/e3d499998dc1343c.png"></p>
+<p>Look at the View trace. You&#39;ll see that while two requests were made to the Gemini API, webLoader was called in between, confirming that the tool was indeed called.</p>
+<p class="image-container"><img alt="Function Calling | Trace" src="img/f0a634adad7644f3.png"></p>
+<h2 is-upgraded>Challenge</h2>
+<p>Try defining your own tools and implementing Function Calling.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Congrats!" duration="1">
+        <p>This concludes the hands-on session. It&#39;s impressive that so much can be achieved with such little code. Here are some Next Actions for those who want to dive deeper.</p>
+<h2 is-upgraded>Next Action</h2>
+<ul>
+<li><a href="https://medium.com/firebase-developers/high-precision-responses-with-genkits-google-search-integration-7f142f5c9693" target="_blank">Grounding with Google Search</a></li>
+<li><a href="https://firebase.google.com/docs/genkit/plugins/firebase" target="_blank">Firebase Deployment</a></li>
+<li><a href="https://medium.com/firebase-developers/build-a-slack-bot-app-with-firebase-genkit-in-just-100-lines-71d4e49c9e08" target="_blank">Build a Slack Bot App</a></li>
+<li><a href="https://medium.com/firebase-developers/how-to-develop-using-the-gemma2-model-in-genkit-085f22ce68f3" target="_blank">Master Gemma2 and Genkit</a></li>
+<li><a href="https://firebase.google.com/codelabs/ai-genkit-rag" target="_blank">Official Codelab: RAG</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
