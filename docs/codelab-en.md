@@ -83,10 +83,13 @@ ai.startFlowServer()
 以下のコマンドで Genkit を起動します。
 
 ```sh
-npx genkit start -- npx tsx --watch src/index.ts
+% npx genkit start -- npx tsx --watch src/index.ts
+> [Telemetry Server] initialized local file trace store at root: /Users/yuki.tanabe/dev/samples/genkit/0.9-test/.genkit/traces
+Telemetry API running on http://localhost:4033
+Genkit Developer UI: http://localhost:4000
 ```
 
-Access [http://localhost:4000](http://localhost:4000) to open Genkit Developer Tools.
+You can access Genkit Developer Tools by opening the URL displayed in the terminal after `Genkit Developer UI:`.
 
 In the Flows menu, select `mainFlow` defined in the code above. Enter a string and select the `Run` button to send a prompt to Gemini.
 
