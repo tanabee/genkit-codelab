@@ -41,7 +41,7 @@ curl \
 ```
 
 ## Hello Genkit!
-Duration: 0:03:00
+Duration: 0:05:00
 
 以下のコマンドを実行してプロジェクトの初期設定を行います。
 
@@ -59,7 +59,6 @@ export GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
 `src/index.ts` ファイルを作成し、以下のコードを貼り付けます。
-
 
 ```JavaScript
 import { genkit, z } from 'genkit'
@@ -90,6 +89,9 @@ npx genkit start -- npx tsx --watch src/index.ts
 [http://localhost:4000](http://localhost:4000) にアクセスすると Genkit Developer Tools にアクセスできます。
 
 Flows メニューに上記のコードで指定した `mainFlow` を選択します。文字列を入力し `Run` ボタンを選択すると Gemini に対してプロンプトを投げることができます。
+
+* プロンプト例: `Firebase を 200 文字以内で説明してください。`
+
 ![Hello Genkit! | Flow](img/ja/hello-genkit-flow.png)
 
 `View trace` ボタンを押すと Gemini API に対する Input, Output を詳細に確認することができます。
@@ -181,10 +183,7 @@ const webLoader = ai.defineTool(
 
 ```javascript
 -  const { text } = await ai.generate(input)
-+  const { text } = await ai.generate({
-+    prompt: input,
-+    tools: [webLoader],
-+  })
++  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
 
 全体のソースコードは以下になります。
@@ -261,11 +260,11 @@ Duration: 0:01:00
 
 以上でこのハンズオンは終わりです。少量のコードでこれだけのことが実現できるのは素晴らしいことだと思います。もっと深堀りしたい方向けに Next Action を提示しておきます。
 
-### Next Action
+### Next steps
 
 - [Google Search を用いた Grounding](https://medium.com/firebase-developers/high-precision-responses-with-genkits-google-search-integration-7f142f5c9693)
 - [Firebase Genkit アプリを Functions へ手軽にデプロイする](https://zenn.dev/cureapp/articles/e8f0dd47641bfd)
-- [Official Codelab: RAG](https://firebase.google.com/codelabs/ai-genkit-rag)
+- [公式 Codelab: RAG](https://firebase.google.com/codelabs/ai-genkit-rag)
 - [Genkit を使って Gemma2 をローカル LLM として呼び出す](https://zenn.dev/cureapp/articles/76bf38216ca304)
 - [100 行で作る Firebase Genkit の Slack ボットアプリ](https://zenn.dev/cureapp/articles/1abb1ad278bb0b)
 - [Goエンジニアのための生成AI - Firebase Genkit入門](https://zenn.dev/yukinagae/articles/4edbd93a675077)

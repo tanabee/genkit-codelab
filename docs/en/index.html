@@ -58,7 +58,7 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Hello Genkit!" duration="3">
+      <google-codelab-step label="Hello Genkit!" duration="5">
         <p>Run the following commands to initialize the project.</p>
 <pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
 npm init -y
@@ -92,6 +92,9 @@ ai.startFlowServer()
 </code></pre>
 <p>Access <a href="http://localhost:4000" target="_blank">http://localhost:4000</a> to open Genkit Developer Tools.</p>
 <p>In the Flows menu, select <code>mainFlow</code> defined in the code above. Enter a string and select the <code>Run</code> button to send a prompt to Gemini.</p>
+<ul>
+<li>Prompt: <code>Explain Firebase in under 100 words.</code></li>
+</ul>
 <p class="image-container"><img alt="Hello Genkit! | Flow" src="img/c1d19bc6e8e53460.png"></p>
 <p>Press the <code>View trace</code> button to see detailed Input and Output from the Gemini API.</p>
 <p class="image-container"><img alt="Hello Genkit! | Trace" src="img/25b050855fb6cb2c.png"></p>
@@ -167,10 +170,7 @@ ai.startFlowServer()
 </code></pre>
 <p>Specify <code>tools</code> in the <code>generate</code> method parameter and include <code>webLoader</code> in the array. Since <code>tools</code> can be specified as an array, you can set multiple tools, and generative AI will select the necessary tool for execution based on the <code>description</code> in <code>defineTool</code>. Just like prompt engineering, tuning description is essential.</p>
 <pre><code language="language-javascript" class="language-javascript">-  const { text } = await ai.generate(input)
-+  const { text } = await ai.generate({
-+    prompt: input,
-+    tools: [webLoader],
-+  })
++  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 </code></pre>
 <p>The complete source code is as follows:</p>
 <pre><code language="language-javascript" class="language-javascript">import { genkit, z } from &#39;genkit&#39;;
@@ -233,7 +233,7 @@ ai.startFlowServer()
     
       <google-codelab-step label="Congrats!" duration="1">
         <p>This concludes the hands-on session. It&#39;s impressive that so much can be achieved with such little code. Here are some Next Actions for those who want to dive deeper.</p>
-<h2 is-upgraded>Next Action</h2>
+<h2 is-upgraded>Next steps</h2>
 <ul>
 <li><a href="https://medium.com/firebase-developers/high-precision-responses-with-genkits-google-search-integration-7f142f5c9693" target="_blank">High-Precision Responses with Genkit&#39;s Google Search Integration</a></li>
 <li><a href="https://medium.com/@yukinagae/deploying-your-firebase-genkit-application-with-firebase-functions-99c7d0044964" target="_blank">Deploying Your Firebase Genkit Application with Firebase Functions</a></li>

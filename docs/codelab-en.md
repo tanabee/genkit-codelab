@@ -41,7 +41,7 @@ curl \
 ```
 
 ## Hello Genkit!
-Duration: 0:03:00
+Duration: 0:05:00
 
 Run the following commands to initialize the project.
 
@@ -89,6 +89,8 @@ npx genkit start -- npx tsx --watch src/index.ts
 Access [http://localhost:4000](http://localhost:4000) to open Genkit Developer Tools.
 
 In the Flows menu, select `mainFlow` defined in the code above. Enter a string and select the `Run` button to send a prompt to Gemini.
+
+* Prompt: `Explain Firebase in under 100 words.`
 
 ![Hello Genkit! | Flow](img/en/hello-genkit-flow.png)
 
@@ -184,10 +186,7 @@ Specify `tools` in the `generate` method parameter and include `webLoader` in th
 
 ```javascript
 -  const { text } = await ai.generate(input)
-+  const { text } = await ai.generate({
-+    prompt: input,
-+    tools: [webLoader],
-+  })
++  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
 
 The complete source code is as follows:
@@ -265,7 +264,7 @@ Duration: 0:01:00
 
 This concludes the hands-on session. It’s impressive that so much can be achieved with such little code. Here are some Next Actions for those who want to dive deeper.
 
-### Next Action
+### Next steps
 
 - [High-Precision Responses with Genkit’s Google Search Integration](https://medium.com/firebase-developers/high-precision-responses-with-genkits-google-search-integration-7f142f5c9693)
 - [Deploying Your Firebase Genkit Application with Firebase Functions](https://medium.com/@yukinagae/deploying-your-firebase-genkit-application-with-firebase-functions-99c7d0044964)
