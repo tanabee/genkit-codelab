@@ -5,7 +5,7 @@ categories: genkit,firebase,javascript
 environments: Web
 status: Published
 url: https://tanabee.github.io/genkit-codelab/ja/
-analytics_ga4_account: G-2P6VCDLG05
+analytics_ga4_account: 2P6VCDLG05
 feedback_link: https://github.com/tanabee/genkit-codelab/issues
 
 # Genkit Hands-on
