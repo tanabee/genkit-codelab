@@ -48,8 +48,10 @@ Run the following commands to initialize the project.
 ```sh
 mkdir hello-genkit && cd hello-genkit
 npm init -y
-npm i --dev genkit-cli@0.9.0-dev.4 tsx typescript
-npm i --save genkit@0.9.0-dev.4 @genkit-ai/googleai@0.9.0-dev.4
+npm i --dev genkit-cli@^0.9.0-rc tsx typescript
+npm i --save genkit@^0.9.0-rc @genkit-ai/googleai@^0.9.0-rc
+mkdir src
+touch src/index.ts
 ```
 
 Set the Gemini API key you obtained earlier as an environment variable.
@@ -69,7 +71,7 @@ const ai = genkit({
   model: gemini15Flash,
 })
 
-ai.defineFlow({
+const mainFlow = ai.defineFlow({
   name: 'mainFlow',
   inputSchema: z.string(),
 }, async (input) => {
@@ -77,7 +79,7 @@ ai.defineFlow({
   return text
 })
 
-ai.startFlowServer()
+ai.startFlowServer({ flows: [mainFlow] })
 ```
 
 以下のコマンドで Genkit を起動します。
@@ -224,7 +226,7 @@ const webLoader = ai.defineTool(
   },
 )
 
-ai.defineFlow({
+const mainFlow = ai.defineFlow({
   name: 'mainFlow',
   inputSchema: z.string(),
 }, async (input) => {
@@ -235,7 +237,7 @@ ai.defineFlow({
   return text
 })
 
-ai.startFlowServer()
+ai.startFlowServer({ flows: [mainFlow] })
 ```
 
 Now that the code is complete, open Developer Tools. You’ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.

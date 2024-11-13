@@ -22,7 +22,7 @@
 <body>
   <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
   <google-codelab codelab-gaid=""
-                  codelab-ga4id="G-2P6VCDLG05"
+                  codelab-ga4id="2P6VCDLG05"
                   id="ja"
                   title="Genkit Hands-on"
                   environment="web"
@@ -62,8 +62,10 @@
         <p>以下のコマンドを実行してプロジェクトの初期設定を行います。</p>
 <pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
 npm init -y
-npm i --dev genkit-cli@0.9.0-dev.4 tsx typescript
-npm i --save genkit@0.9.0-dev.4 @genkit-ai/googleai@0.9.0-dev.4
+npm i --dev genkit-cli@^0.9.0-rc tsx typescript
+npm i --save genkit@^0.9.0-rc @genkit-ai/googleai@^0.9.0-rc
+mkdir src
+touch src/index.ts
 </code></pre>
 <p>先ほど取得した Gemini の API キーを環境変数にセットします。</p>
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
@@ -77,7 +79,7 @@ const ai = genkit({
   model: gemini15Flash,
 })
 
-ai.defineFlow({
+const mainFlow = ai.defineFlow({
   name: &#39;mainFlow&#39;,
   inputSchema: z.string(),
 }, async (input) =&gt; {
@@ -85,7 +87,7 @@ ai.defineFlow({
   return text
 })
 
-ai.startFlowServer()
+ai.startFlowServer({ flows: [mainFlow] })
 </code></pre>
 <p>以下のコマンドで Genkit を起動します。</p>
 <pre><code language="language-sh" class="language-sh">% npx genkit start -- npx tsx --watch src/index.ts
@@ -202,7 +204,7 @@ const webLoader = ai.defineTool(
   },
 )
 
-ai.defineFlow({
+const mainFlow = ai.defineFlow({
   name: &#39;mainFlow&#39;,
   inputSchema: z.string(),
 }, async (input) =&gt; {
@@ -213,7 +215,7 @@ ai.defineFlow({
   return text
 })
 
-ai.startFlowServer()
+ai.startFlowServer({ flows: [mainFlow] })
 </code></pre>
 <p>それでは、コードが完成したので Developer Tools を開いてみます。 Tools メニューに webLoader が追加されていることが分かります。 webLoader を選択し、以下の URL を挿入して実行します。</p>
 <p>URL: <a href="https://zenn.dev/tanabee/articles/e05f722c7cbc6c" target="_blank">https://zenn.dev/tanabee/articles/e05f722c7cbc6c</a></p>
