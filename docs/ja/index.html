@@ -62,10 +62,9 @@
         <p>以下のコマンドを実行してプロジェクトの初期設定を行います。</p>
 <pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
 npm init -y
-npm i --dev genkit-cli@^0.9.0-rc tsx typescript
-npm i --save genkit@^0.9.0-rc @genkit-ai/googleai@^0.9.0-rc
-mkdir src
-touch src/index.ts
+npm i --save-dev genkit-cli tsx typescript
+npm i --save genkit @genkit-ai/googleai
+mkdir src &amp;&amp; touch src/index.ts
 </code></pre>
 <p>先ほど取得した Gemini の API キーを環境変数にセットします。</p>
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;

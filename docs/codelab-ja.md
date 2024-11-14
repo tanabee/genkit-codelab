@@ -48,10 +48,9 @@ Duration: 0:05:00
 ```sh
 mkdir hello-genkit && cd hello-genkit
 npm init -y
-npm i --dev genkit-cli@^0.9.0-rc tsx typescript
-npm i --save genkit@^0.9.0-rc @genkit-ai/googleai@^0.9.0-rc
-mkdir src
-touch src/index.ts
+npm i --save-dev genkit-cli tsx typescript
+npm i --save genkit @genkit-ai/googleai
+mkdir src && touch src/index.ts
 ```
 
 先ほど取得した Gemini の API キーを環境変数にセットします。
