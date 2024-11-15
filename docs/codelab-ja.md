@@ -84,7 +84,7 @@ ai.startFlowServer({ flows: [mainFlow] })
 以下のコマンドで Genkit が起動し、 Developer Tools が自動的に立ち上がります。
 
 ```sh
-% npx genkit start -o -- npx tsx --watch src/index.ts
+npx genkit start -o -- npx tsx --watch src/index.ts
 ```
 
 Flows メニューに上記のコードで指定した `mainFlow` を選択します。文字列を入力し `Run` ボタンを選択すると Gemini に対してプロンプトを投げることができます。
