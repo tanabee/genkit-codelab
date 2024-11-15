@@ -48,8 +48,8 @@ Run the following commands to initialize the project.
 ```sh
 mkdir hello-genkit && cd hello-genkit
 npm init -y
-npm i --save-dev genkit-cli tsx typescript
-npm i --save genkit @genkit-ai/googleai
+npm i -D genkit-cli
+npm i genkit @genkit-ai/googleai
 mkdir src && touch src/index.ts
 ```
 
@@ -81,16 +81,11 @@ const mainFlow = ai.defineFlow({
 ai.startFlowServer({ flows: [mainFlow] })
 ```
 
-以下のコマンドで Genkit を起動します。
+Genkit will start with the following command, and Developer Tools will automatically launch.
 
 ```sh
-% npx genkit start -- npx tsx --watch src/index.ts
-> [Telemetry Server] initialized local file trace store at root: /Users/yuki.tanabe/dev/samples/genkit/0.9-test/.genkit/traces
-Telemetry API running on http://localhost:4033
-Genkit Developer UI: http://localhost:4000
+% npx genkit start -o -- npx tsx --watch src/index.ts
 ```
-
-You can access Genkit Developer Tools by opening the URL displayed in the terminal after `Genkit Developer UI:`.
 
 In the Flows menu, select `mainFlow` defined in the code above. Enter a string and select the `Run` button to send a prompt to Gemini.
 

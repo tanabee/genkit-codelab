@@ -62,8 +62,8 @@
         <p>以下のコマンドを実行してプロジェクトの初期設定を行います。</p>
 <pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
 npm init -y
-npm i --save-dev genkit-cli tsx typescript
-npm i --save genkit @genkit-ai/googleai
+npm i -D genkit-cli
+npm i genkit @genkit-ai/googleai
 mkdir src &amp;&amp; touch src/index.ts
 </code></pre>
 <p>先ほど取得した Gemini の API キーを環境変数にセットします。</p>
@@ -88,13 +88,9 @@ const mainFlow = ai.defineFlow({
 
 ai.startFlowServer({ flows: [mainFlow] })
 </code></pre>
-<p>以下のコマンドで Genkit を起動します。</p>
-<pre><code language="language-sh" class="language-sh">% npx genkit start -- npx tsx --watch src/index.ts
-&gt; [Telemetry Server] initialized local file trace store at root: ~~~ 
-Telemetry API running on http://localhost:4033
-Genkit Developer UI: http://localhost:4000
+<p>以下のコマンドで Genkit が起動し、 Developer Tools が自動的に立ち上がります。</p>
+<pre><code language="language-sh" class="language-sh">% npx genkit start -o -- npx tsx --watch src/index.ts
 </code></pre>
-<p>ターミナルで <code>Genkit Developer UI:</code> の後ろに表示されている URL にアクセスすると Genkit Developer Tools にアクセスできます。</p>
 <p>Flows メニューに上記のコードで指定した <code>mainFlow</code> を選択します。文字列を入力し <code>Run</code> ボタンを選択すると Gemini に対してプロンプトを投げることができます。</p>
 <ul>
 <li>プロンプト例: <code>Firebase を 200 文字以内で説明してください。</code></li>
