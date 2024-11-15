@@ -136,7 +136,7 @@ Function Calling は生成 AI が事前に定義された関数を必要に応�
 このハンズオンでは URL の中身を抽出するツールを実装して Function Calling を体験してもらいます。HTML parser として [Cheerio](https://www.npmjs.com/package/cheerio) を利用します。
 
 ```sh
-npm i --save cheerio
+npm i cheerio
 ```
 
 Code Execution は一度削除しておきます。

@@ -139,7 +139,7 @@ Function Calling allows generative AI to call predefined functions as needed to 
 In this codelab, you’ll implement a tool to extract the contents of a URL and try calling it with Function Calling using [Cheerio](https://www.npmjs.com/package/cheerio) as the HTML parser.
 
 ```sh
-npm i --save cheerio
+npm i cheerio
 ```
 
 Remove Code Execution for now.
