@@ -61,9 +61,11 @@ export GOOGLE_GENAI_API_KEY=<your API key>
 
 Create a file called `src/index.ts` and paste the following code:
 
-```JavaScript
+```javaScript
 import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { logger } from 'genkit/logging'
+logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
@@ -152,7 +154,7 @@ Remove Code Execution for now.
 Import cheerio.
 
 ```javascript
-  import { genkit, z } from 'genkit';
+  import { genkit, z } from 'genkit'
   import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
 + import * as cheerio from 'cheerio'
 ```
@@ -169,14 +171,14 @@ const webLoader = ai.defineTool(
     outputSchema: z.string(),
   },
   async ({ url }) => {
-    const res = await fetch(url);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-    $("script, style, noscript").remove();
+    const res = await fetch(url)
+    const html = await res.text()
+    const $ = cheerio.load(html)
+    $("script, style, noscript").remove()
     if ($("article")) {
-      return $("article").text();
+      return $("article").text()
     }
-    return $("body").text();
+    return $("body").text()
   },
 )
 ```
@@ -191,9 +193,11 @@ Specify `tools` in the `generate` method parameter and include `webLoader` in th
 The complete source code is as follows:
 
 ```javascript
-import { genkit, z } from 'genkit';
+import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
 import * as cheerio from 'cheerio'
+import { logger } from 'genkit/logging'
+logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
@@ -209,14 +213,14 @@ const webLoader = ai.defineTool(
     outputSchema: z.string(),
   },
   async ({ url }) => {
-    const res = await fetch(url);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-    $("script, style, noscript").remove();
+    const res = await fetch(url)
+    const html = await res.text()
+    const $ = cheerio.load(html)
+    $("script, style, noscript").remove()
     if ($("article")) {
-      return $("article").text();
+      return $("article").text()
     }
-    return $("body").text();
+    return $("body").text()
   },
 )
 

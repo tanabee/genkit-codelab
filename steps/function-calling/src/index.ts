@@ -1,6 +1,8 @@
-import { genkit, z } from 'genkit';
+import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
 import * as cheerio from 'cheerio'
+import { logger } from 'genkit/logging'
+logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
@@ -16,14 +18,14 @@ const webLoader = ai.defineTool(
     outputSchema: z.string(),
   },
   async ({ url }) => {
-    const res = await fetch(url);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-    $("script, style, noscript").remove();
+    const res = await fetch(url)
+    const html = await res.text()
+    const $ = cheerio.load(html)
+    $("script, style, noscript").remove()
     if ($("article")) {
-      return $("article").text();
+      return $("article").text()
     }
-    return $("body").text();
+    return $("body").text()
   },
 )
 

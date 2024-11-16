@@ -70,8 +70,10 @@ mkdir src &amp;&amp; touch src/index.ts
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
 </code></pre>
 <p>Create a file called <code>src/index.ts</code> and paste the following code:</p>
-<pre><code language="language-JavaScript" class="language-JavaScript">import { genkit, z } from &#39;genkit&#39;
+<pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
 import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+import { logger } from &#39;genkit/logging&#39;
+logger.setLogLevel(&#39;debug&#39;)
 
 const ai = genkit({
   plugins: [googleAI()],
@@ -143,7 +145,7 @@ ai.startFlowServer({ flows: [mainFlow] })
 +  model: gemini15Flash,
 </code></pre>
 <p>Import cheerio.</p>
-<pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;;
+<pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;
   import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
 + import * as cheerio from &#39;cheerio&#39;
 </code></pre>
@@ -157,14 +159,14 @@ ai.startFlowServer({ flows: [mainFlow] })
     outputSchema: z.string(),
   },
   async ({ url }) =&gt; {
-    const res = await fetch(url);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-    $(&#34;script, style, noscript&#34;).remove();
+    const res = await fetch(url)
+    const html = await res.text()
+    const $ = cheerio.load(html)
+    $(&#34;script, style, noscript&#34;).remove()
     if ($(&#34;article&#34;)) {
-      return $(&#34;article&#34;).text();
+      return $(&#34;article&#34;).text()
     }
-    return $(&#34;body&#34;).text();
+    return $(&#34;body&#34;).text()
   },
 )
 </code></pre>
@@ -173,9 +175,11 @@ ai.startFlowServer({ flows: [mainFlow] })
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 </code></pre>
 <p>The complete source code is as follows:</p>
-<pre><code language="language-javascript" class="language-javascript">import { genkit, z } from &#39;genkit&#39;;
+<pre><code language="language-javascript" class="language-javascript">import { genkit, z } from &#39;genkit&#39;
 import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
 import * as cheerio from &#39;cheerio&#39;
+import { logger } from &#39;genkit/logging&#39;
+logger.setLogLevel(&#39;debug&#39;)
 
 const ai = genkit({
   plugins: [googleAI()],
@@ -191,14 +195,14 @@ const webLoader = ai.defineTool(
     outputSchema: z.string(),
   },
   async ({ url }) =&gt; {
-    const res = await fetch(url);
-    const html = await res.text();
-    const $ = cheerio.load(html);
-    $(&#34;script, style, noscript&#34;).remove();
+    const res = await fetch(url)
+    const html = await res.text()
+    const $ = cheerio.load(html)
+    $(&#34;script, style, noscript&#34;).remove()
     if ($(&#34;article&#34;)) {
-      return $(&#34;article&#34;).text();
+      return $(&#34;article&#34;).text()
     }
-    return $(&#34;body&#34;).text();
+    return $(&#34;body&#34;).text()
   },
 )
 
