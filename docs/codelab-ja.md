@@ -59,7 +59,7 @@ mkdir src && touch src/index.ts
 export GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
-`src/index.ts` ファイルを作成し、以下のコードを貼り付けます。
+`src/index.ts` に以下のコードを貼り付けます。
 
 ```JavaScript
 import { genkit, z } from 'genkit'

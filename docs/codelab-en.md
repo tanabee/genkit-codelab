@@ -59,7 +59,7 @@ Set the Gemini API key you obtained earlier as an environment variable.
 export GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
-Create a file called `src/index.ts` and paste the following code:
+Please paste the following code into the `src/index.ts` file.
 
 ```javaScript
 import { genkit, z } from 'genkit'
@@ -204,7 +204,7 @@ The content of the URL was extracted. In Genkit Developer Tools, you can test to
 
 Next, select mainFlow from the Flow menu. Enter the following prompt and execute it.
 
-Prompt: `Summarize the content of the following URL in less than 200 characters. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179`
+Prompt: `First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179`
 
 You can see that the content has been summarized based on the extracted content.
 

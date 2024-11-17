@@ -69,7 +69,7 @@ mkdir src &amp;&amp; touch src/index.ts
 <p>Set the Gemini API key you obtained earlier as an environment variable.</p>
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
 </code></pre>
-<p>Create a file called <code>src/index.ts</code> and paste the following code:</p>
+<p>Please paste the following code into the <code>src/index.ts</code> file.</p>
 <pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
 import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
 import { logger } from &#39;genkit/logging&#39;
@@ -181,7 +181,7 @@ ai.startFlowServer({ flows: [mainFlow] })
 <p class="image-container"><img alt="Function Calling | Tool" src="img/86295bf724e12421.png"></p>
 <p>The content of the URL was extracted. In Genkit Developer Tools, you can test tools individually to verify their functionality before incorporating them into a Flow, making development more efficient.</p>
 <p>Next, select mainFlow from the Flow menu. Enter the following prompt and execute it.</p>
-<p>Prompt: <code>Summarize the content of the following URL in less than 200 characters. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</code></p>
+<p>Prompt: <code>First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</code></p>
 <p>You can see that the content has been summarized based on the extracted content.</p>
 <p class="image-container"><img alt="Function Calling | Flow" src="img/e3d499998dc1343c.png"></p>
 <p>Look at the View trace. You&#39;ll see that while two requests were made to the Gemini API, webLoader was called in between, confirming that the tool was indeed called.</p>
