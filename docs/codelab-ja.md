@@ -187,9 +187,9 @@ const webLoader = ai.defineTool(
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
 
-最終的なソースコードは以下からアクセスできます。
+最終的なソースコードは以下の GitHub で確認できます。
 
-https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts
+[https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts](https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts)
 
 それでは、コードが完成したので Developer Tools を開いてみます。 Tools メニューに webLoader が追加されていることが分かります。 webLoader を選択し、以下の URL を挿入して実行します。
 

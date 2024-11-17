@@ -171,8 +171,8 @@ ai.startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-javascript" class="language-javascript">-  const { text } = await ai.generate(input)
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 </code></pre>
-<p>最終的なソースコードは以下からアクセスできます。</p>
-<p>https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</p>
+<p>最終的なソースコードは以下の GitHub で確認できます。</p>
+<p><a href="https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts" target="_blank">https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</a></p>
 <p>それでは、コードが完成したので Developer Tools を開いてみます。 Tools メニューに webLoader が追加されていることが分かります。 webLoader を選択し、以下の URL を挿入して実行します。</p>
 <p>URL: <a href="https://zenn.dev/tanabee/articles/e05f722c7cbc6c" target="_blank">https://zenn.dev/tanabee/articles/e05f722c7cbc6c</a></p>
 <p class="image-container"><img alt="Function Calling | Tool" src="img/e6f6a1092f44b695.png"></p>

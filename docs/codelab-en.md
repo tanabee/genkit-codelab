@@ -190,9 +190,9 @@ Specify `tools` in the `generate` method parameter and include `webLoader` in th
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
 
-The final source code can be found below.
+The final source code can be found at the following GitHub URL.
 
-https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts
+[https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts](https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts)
 
 Now that the code is complete, open Developer Tools. You’ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.
 

@@ -174,8 +174,8 @@ ai.startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-javascript" class="language-javascript">-  const { text } = await ai.generate(input)
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 </code></pre>
-<p>The final source code can be found below.</p>
-<p>https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</p>
+<p>The final source code can be found at the following GitHub URL.</p>
+<p><a href="https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts" target="_blank">https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</a></p>
 <p>Now that the code is complete, open Developer Tools. You&#39;ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.</p>
 <p>URL: <a href="https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179" target="_blank">https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</a></p>
 <p class="image-container"><img alt="Function Calling | Tool" src="img/86295bf724e12421.png"></p>
