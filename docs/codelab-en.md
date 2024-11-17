@@ -190,53 +190,9 @@ Specify `tools` in the `generate` method parameter and include `webLoader` in th
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
 
-The complete source code is as follows:
+The final source code can be found below.
 
-```javascript
-import { genkit, z } from 'genkit'
-import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
-import * as cheerio from 'cheerio'
-import { logger } from 'genkit/logging'
-logger.setLogLevel('debug')
-
-const ai = genkit({
-  plugins: [googleAI()],
-  model: gemini15Flash,
-})
-
-const webLoader = ai.defineTool(
-  {
-    name: "webLoader",
-    description:
-      "When a URL is received, it accesses the URL and retrieves the content inside.",
-    inputSchema: z.object({ url: z.string() }),
-    outputSchema: z.string(),
-  },
-  async ({ url }) => {
-    const res = await fetch(url)
-    const html = await res.text()
-    const $ = cheerio.load(html)
-    $("script, style, noscript").remove()
-    if ($("article")) {
-      return $("article").text()
-    }
-    return $("body").text()
-  },
-)
-
-const mainFlow = ai.defineFlow({
-  name: 'mainFlow',
-  inputSchema: z.string(),
-}, async (input) => {
-  const { text } = await ai.generate({
-    prompt: input,
-    tools: [webLoader],
-  })
-  return text
-})
-
-ai.startFlowServer({ flows: [mainFlow] })
-```
+https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts
 
 Now that the code is complete, open Developer Tools. You’ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.
 

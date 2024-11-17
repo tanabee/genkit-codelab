@@ -171,51 +171,8 @@ ai.startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-javascript" class="language-javascript">-  const { text } = await ai.generate(input)
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 </code></pre>
-<p>全体のソースコードは以下になります。</p>
-<pre><code language="language-javascript" class="language-javascript">import { genkit, z } from &#39;genkit&#39;
-import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
-import * as cheerio from &#39;cheerio&#39;
-import { logger } from &#39;genkit/logging&#39;
-logger.setLogLevel(&#39;debug&#39;)
-
-const ai = genkit({
-  plugins: [googleAI()],
-  model: gemini15Flash,
-})
-
-const webLoader = ai.defineTool(
-  {
-    name: &#34;webLoader&#34;,
-    description:
-      &#34;When a URL is received, it accesses the URL and retrieves the content inside.&#34;,
-    inputSchema: z.object({ url: z.string() }),
-    outputSchema: z.string(),
-  },
-  async ({ url }) =&gt; {
-    const res = await fetch(url)
-    const html = await res.text()
-    const $ = cheerio.load(html)
-    $(&#34;script, style, noscript&#34;).remove()
-    if ($(&#34;article&#34;)) {
-      return $(&#34;article&#34;).text()
-    }
-    return $(&#34;body&#34;).text()
-  },
-)
-
-const mainFlow = ai.defineFlow({
-  name: &#39;mainFlow&#39;,
-  inputSchema: z.string(),
-}, async (input) =&gt; {
-  const { text } = await ai.generate({
-    prompt: input,
-    tools: [webLoader],
-  })
-  return text
-})
-
-ai.startFlowServer({ flows: [mainFlow] })
-</code></pre>
+<p>最終的なソースコードは以下からアクセスできます。</p>
+<p>https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</p>
 <p>それでは、コードが完成したので Developer Tools を開いてみます。 Tools メニューに webLoader が追加されていることが分かります。 webLoader を選択し、以下の URL を挿入して実行します。</p>
 <p>URL: <a href="https://zenn.dev/tanabee/articles/e05f722c7cbc6c" target="_blank">https://zenn.dev/tanabee/articles/e05f722c7cbc6c</a></p>
 <p class="image-container"><img alt="Function Calling | Tool" src="img/e6f6a1092f44b695.png"></p>
