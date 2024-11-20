@@ -43,7 +43,7 @@ curl \
 ## Hello Genkit!
 Duration: 0:05:00
 
-Run the following commands to initialize the project.
+In this section, we’ll run Genkit locally with its minimal configuration. Run the following commands to initialize the project.
 
 ```sh
 mkdir hello-genkit && cd hello-genkit
@@ -221,7 +221,7 @@ Try defining your own tools and implementing Function Calling.
 ## Congrats!
 Duration: 0:01:00
 
-This concludes the hands-on session. It’s impressive that so much can be achieved with such little code. Here are some Next Actions for those who want to dive deeper.
+This concludes the hands-on session. It’s impressive that so much can be achieved with such little code. Here are some next steps for those who want to dive deeper.
 
 ### Next steps
 
@@ -230,4 +230,3 @@ This concludes the hands-on session. It’s impressive that so much can be achie
 - [Official Codelab: RAG](https://firebase.google.com/codelabs/ai-genkit-rag)
 - [Master Gemma2 and Genkit](https://medium.com/firebase-developers/how-to-develop-using-the-gemma2-model-in-genkit-085f22ce68f3)
 - [Build a Slack Bot App with Firebase Genkit in just 100 Lines](https://medium.com/firebase-developers/build-a-slack-bot-app-with-firebase-genkit-in-just-100-lines-71d4e49c9e08)
-- [Firebase Genkit for Go Developers: A Guide to Building LLM Applications](https://medium.com/@yukinagae/firebase-genkit-for-go-developers-a-guide-to-building-llm-applications-f96c51c34b10)

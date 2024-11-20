@@ -226,4 +226,3 @@ Duration: 0:01:00
 - [公式 Codelab: RAG](https://firebase.google.com/codelabs/ai-genkit-rag)
 - [Genkit を使って Gemma2 をローカル LLM として呼び出す](https://zenn.dev/cureapp/articles/76bf38216ca304)
 - [100 行で作る Firebase Genkit の Slack ボットアプリ](https://zenn.dev/cureapp/articles/1abb1ad278bb0b)
-- [Goエンジニアのための生成AI - Firebase Genkit入門](https://zenn.dev/yukinagae/articles/4edbd93a675077)
