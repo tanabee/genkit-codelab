@@ -58,7 +58,6 @@ mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
 npm i genkit @genkit-ai/googleai
-mkdir src
 ```
 
 Set the Gemini API key you obtained earlier as an environment variable.
