@@ -40,6 +40,14 @@ curl \
   -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
 ```
 
+If you're using Windows, please confirm with the following command on PowerShell.
+```PowerShell
+curl `
+  -H "Content-Type: application/json" `
+  -d '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
+  -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
+```
+
 ## Hello Genkit!
 Duration: 0:05:00
 
@@ -50,7 +58,6 @@ mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
 npm i genkit @genkit-ai/googleai
-mkdir src && touch src/index.ts
 ```
 
 Set the Gemini API key you obtained earlier as an environment variable.
@@ -59,7 +66,12 @@ Set the Gemini API key you obtained earlier as an environment variable.
 export GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
-Please paste the following code into the `src/index.ts` file.
+If you're using Windows, set the Gemini API key as an environment running the following command on PowerShell.
+```PowerShell
+$env:GOOGLE_GENAI_API_KEY=<your API key>
+```
+
+Please create `src/index.ts` file and paste the following code.
 
 ```javaScript
 import { genkit, z } from 'genkit'
