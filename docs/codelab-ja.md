@@ -40,8 +40,8 @@ curl \
   -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
 ```
 
-Windows の場合は Powershell 上で以下のコマンドを実行して確認しましょう。
-```powershell
+Windows の場合は PowerShell 上で以下のコマンドを実行して確認しましょう。
+```PowerShell
 curl `
   -H "Content-Type: application/json" `
   -d '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
@@ -62,7 +62,7 @@ mkdir src && touch src/index.ts
 ```
 
 Windows で実行する場合は以下のコマンドで初期設定を行います。
-```powershell
+```PowerShell
 mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
@@ -76,8 +76,8 @@ mkdir src && cmd /C type nul > src/index.ts
 export GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
-Windows の場合は Powershell で以下のコマンドを実行し、Gemini の API キーを環境変数にセットします。
-```powershell
+Windows の場合は PowerShell で以下のコマンドを実行し、Gemini の API キーを環境変数にセットします。
+```PowerShell
 $env:GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
