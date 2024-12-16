@@ -58,16 +58,7 @@ mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
 npm i genkit @genkit-ai/googleai
-mkdir src && touch src/index.ts
-```
-
-Windows で実行する場合は以下のコマンドで初期設定を行います。
-```PowerShell
-mkdir hello-genkit && cd hello-genkit
-npm init -y
-npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai
-mkdir src && cmd /C type nul > src/index.ts
+mkdir src
 ```
 
 先ほど取得した Gemini の API キーを環境変数にセットします。
@@ -81,7 +72,7 @@ Windows の場合は PowerShell で以下のコマンドを実行し、Gemini �
 $env:GOOGLE_GENAI_API_KEY=<your API key>
 ```
 
-`src/index.ts` に以下のコードを貼り付けます。
+ファイル `src/index.ts` を作成し、以下のコードを貼り付けます。
 
 ```JavaScript
 import { genkit, z } from 'genkit'

@@ -70,14 +70,7 @@
 npm init -y
 npm i -D genkit-cli
 npm i genkit @genkit-ai/googleai
-mkdir src &amp;&amp; touch src/index.ts
-</code></pre>
-<p>If you&#39;re using Windows, run the following commands to initialize the project.</p>
-<pre><code language="language-PowerShell" class="language-PowerShell">mkdir hello-genkit &amp;&amp; cd hello-genkit
-npm init -y
-npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai
-mkdir src &amp;&amp; cmd /C type nul &gt; src/index.ts
+mkdir src
 </code></pre>
 <p>Set the Gemini API key you obtained earlier as an environment variable.</p>
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
@@ -85,7 +78,7 @@ mkdir src &amp;&amp; cmd /C type nul &gt; src/index.ts
 <p>If you&#39;re using Windows, set the Gemini API key as an environment running the following command on PowerShell.</p>
 <pre><code language="language-PowerShell" class="language-PowerShell">$env:GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
 </code></pre>
-<p>Please paste the following code into the <code>src/index.ts</code> file.</p>
+<p>Please create <code>src/index.ts</code> file and paste the following code.</p>
 <pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
 import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
 import { logger } from &#39;genkit/logging&#39;
