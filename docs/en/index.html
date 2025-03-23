@@ -69,7 +69,7 @@
 <pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
 npm init -y
 npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai
+npm i genkit @genkit-ai/googleai @genkit-ai/express
 </code></pre>
 <p>Set the Gemini API key you obtained earlier as an environment variable.</p>
 <pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
@@ -80,6 +80,7 @@ npm i genkit @genkit-ai/googleai
 <p>Please create <code>src/index.ts</code> file and paste the following code.</p>
 <pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
 import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+import { startFlowServer } from &#39;@genkit-ai/express&#39;
 import { logger } from &#39;genkit/logging&#39;
 logger.setLogLevel(&#39;debug&#39;)
 
@@ -96,7 +97,7 @@ const mainFlow = ai.defineFlow({
   return text
 })
 
-ai.startFlowServer({ flows: [mainFlow] })
+startFlowServer({ flows: [mainFlow] })
 </code></pre>
 <p>Genkit will start with the following command, and Developer Tools will automatically launch.</p>
 <pre><code language="language-sh" class="language-sh">npx genkit start -o -- npx tsx --watch src/index.ts
@@ -210,6 +211,7 @@ ai.startFlowServer({ flows: [mainFlow] })
 <li><a href="https://medium.com/firebase-developers/how-to-develop-using-the-gemma2-model-in-genkit-085f22ce68f3" target="_blank">Master Gemma2 and Genkit</a></li>
 <li><a href="https://medium.com/firebase-developers/build-a-slack-bot-app-with-firebase-genkit-in-just-100-lines-71d4e49c9e08" target="_blank">Build a Slack Bot App with Firebase Genkit in just 100 Lines</a></li>
 <li><a href="https://medium.com/@yukinagae/firebase-genkit-for-go-developers-a-guide-to-building-llm-applications-f96c51c34b10" target="_blank">Firebase Genkit for Go Developers: A Guide to Building LLM Applications</a></li>
+<li><a href="https://medium.com/firebase-developers/internal-ai-a-genkit-based-internal-ai-chat-released-as-open-source-37795896a106" target="_blank">An open-source Genkit-based internal AI chat implementation</a></li>
 </ul>
 
 

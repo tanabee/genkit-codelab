@@ -57,7 +57,7 @@ Duration: 0:05:00
 mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai
+npm i genkit @genkit-ai/googleai @genkit-ai/express
 ```
 
 先ほど取得した Gemini の API キーを環境変数にセットします。
@@ -76,6 +76,7 @@ $env:GOOGLE_GENAI_API_KEY=<your API key>
 ```JavaScript
 import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
@@ -92,7 +93,7 @@ const mainFlow = ai.defineFlow({
   return text
 })
 
-ai.startFlowServer({ flows: [mainFlow] })
+startFlowServer({ flows: [mainFlow] })
 ```
 
 以下のコマンドで Genkit が起動し、 Developer Tools が自動的に立ち上がります。
@@ -239,3 +240,4 @@ Duration: 0:01:00
 - [Genkit を使って Gemma2 をローカル LLM として呼び出す](https://zenn.dev/cureapp/articles/76bf38216ca304)
 - [100 行で作る Firebase Genkit の Slack ボットアプリ](https://zenn.dev/cureapp/articles/1abb1ad278bb0b)
 - [Goエンジニアのための生成AI - Firebase Genkit入門](https://zenn.dev/yukinagae/articles/4edbd93a675077)
+- [社内向け AI チャットの構築](https://zenn.dev/tanabee/articles/1729f53b9a3223)

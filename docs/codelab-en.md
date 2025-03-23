@@ -57,7 +57,7 @@ In this section, we’ll run Genkit locally with its minimal configuration. Run 
 mkdir hello-genkit && cd hello-genkit
 npm init -y
 npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai
+npm i genkit @genkit-ai/googleai @genkit-ai/express
 ```
 
 Set the Gemini API key you obtained earlier as an environment variable.
@@ -76,6 +76,7 @@ Please create `src/index.ts` file and paste the following code.
 ```javaScript
 import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
@@ -92,7 +93,7 @@ const mainFlow = ai.defineFlow({
   return text
 })
 
-ai.startFlowServer({ flows: [mainFlow] })
+startFlowServer({ flows: [mainFlow] })
 ```
 
 Genkit will start with the following command, and Developer Tools will automatically launch.
@@ -243,3 +244,4 @@ This concludes the hands-on session. It’s impressive that so much can be achie
 - [Master Gemma2 and Genkit](https://medium.com/firebase-developers/how-to-develop-using-the-gemma2-model-in-genkit-085f22ce68f3)
 - [Build a Slack Bot App with Firebase Genkit in just 100 Lines](https://medium.com/firebase-developers/build-a-slack-bot-app-with-firebase-genkit-in-just-100-lines-71d4e49c9e08)
 - [Firebase Genkit for Go Developers: A Guide to Building LLM Applications](https://medium.com/@yukinagae/firebase-genkit-for-go-developers-a-guide-to-building-llm-applications-f96c51c34b10)
+- [An open-source Genkit-based internal AI chat implementation](https://medium.com/firebase-developers/internal-ai-a-genkit-based-internal-ai-chat-released-as-open-source-37795896a106)

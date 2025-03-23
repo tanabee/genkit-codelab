@@ -9,11 +9,12 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "devDependencies": {
-    "genkit-cli": "^0.9.0"
-  },
   "dependencies": {
-    "@genkit-ai/googleai": "^0.9.0",
-    "genkit": "^0.9.0"
+    "@genkit-ai/express": "^1.3.0",
+    "@genkit-ai/googleai": "^1.3.0",
+    "genkit": "^1.3.0"
+  },
+  "devDependencies": {
+    "genkit-cli": "^1.3.0"
   }
 }

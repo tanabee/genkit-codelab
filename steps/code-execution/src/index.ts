@@ -1,5 +1,6 @@
 import { genkit, z } from 'genkit'
 import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
@@ -16,4 +17,4 @@ const mainFlow = ai.defineFlow({
   return text
 })
 
-ai.startFlowServer({ flows: [mainFlow] })
+startFlowServer({ flows: [mainFlow] })
