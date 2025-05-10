@@ -54,7 +54,7 @@ Duration: 0:05:00
 In this section, we’ll run Genkit locally with its minimal configuration. Run the following commands to initialize the project.
 
 ```sh
-% npm create genkitx
+$ npm create genkitx
 
 ? Select template › - Use arrow-keys. Return to submit.
 ❯   Minimal - This is a Minimal template
@@ -64,7 +64,7 @@ In this section, we’ll run Genkit locally with its minimal configuration. Run 
 
 ✅ Project "hello-genkit" has been successfully generated
 
-cd hello-genkit
+$ cd hello-genkit
 ```
 
 Set the Gemini API key you obtained earlier as an environment variable.

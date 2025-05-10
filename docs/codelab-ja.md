@@ -54,7 +54,7 @@ Duration: 0:05:00
 以下のコマンドを実行してプロジェクトの初期設定を行います。
 
 ```sh
-% npm create genkitx
+$ npm create genkitx
 
 ? Select template › - Use arrow-keys. Return to submit.
 ❯   Minimal - This is a Minimal template
@@ -64,7 +64,7 @@ Duration: 0:05:00
 
 ✅ Project "hello-genkit" has been successfully generated
 
-cd hello-genkit
+$ cd hello-genkit
 ```
 
 先ほど取得した Gemini の API キーを環境変数にセットします。
