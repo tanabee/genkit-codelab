@@ -54,35 +54,42 @@ Duration: 0:05:00
 以下のコマンドを実行してプロジェクトの初期設定を行います。
 
 ```sh
-mkdir hello-genkit && cd hello-genkit
-npm init -y
-npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai @genkit-ai/express
+% npm create genkitx
+
+? Select template › - Use arrow-keys. Return to submit.
+❯   Minimal - This is a Minimal template
+    MCP
+
+? Enter your project name › hello-genkit
+
+✅ Project "hello-genkit" has been successfully generated
+
+cd hello-genkit
 ```
 
 先ほど取得した Gemini の API キーを環境変数にセットします。
 
 ```sh
-export GOOGLE_GENAI_API_KEY=<your API key>
+export GEMINI_API_KEY=<your-api-key>
 ```
 
 Windows の場合は PowerShell で以下のコマンドを実行し、Gemini の API キーを環境変数にセットします。
 ```PowerShell
-$env:GOOGLE_GENAI_API_KEY=<your API key>
+$env:GEMINI_API_KEY=<your API key>
 ```
 
-ファイル `src/index.ts` を作成し、以下のコードを貼り付けます。
+ファイル `src/index.ts` を確認します。このコードが Genkit による生成 AI リクエストの実態となるコードで 20 行程度で書くことができます。
 
 ```JavaScript
 import { genkit, z } from 'genkit'
-import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { googleAI, gemini20Flash } from '@genkit-ai/googleai'
 import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini15Flash,
+  model: gemini20Flash,
 })
 
 const mainFlow = ai.defineFlow({
@@ -99,10 +106,10 @@ startFlowServer({ flows: [mainFlow] })
 以下のコマンドで Genkit が起動し、 Developer Tools が自動的に立ち上がります。
 
 ```sh
-npx genkit start -o -- npx tsx --watch src/index.ts
+npm start
 ```
 
-Flows メニューに上記のコードで指定した `mainFlow` を選択します。文字列を入力し `Run` ボタンを選択すると Gemini に対してプロンプトを投げることができます。
+Flows メニューから `mainFlow` を選択します。文字列を入力し `Run` ボタンを選択すると Gemini に対してプロンプトを投げることができます。
 
 * プロンプト例: `Firebase を 200 文字以内で説明してください。`
 

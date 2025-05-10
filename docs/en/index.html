@@ -66,27 +66,34 @@
     
       <google-codelab-step label="Hello Genkit!" duration="5">
         <p>In this section, we&#39;ll run Genkit locally with its minimal configuration. Run the following commands to initialize the project.</p>
-<pre><code language="language-sh" class="language-sh">mkdir hello-genkit &amp;&amp; cd hello-genkit
-npm init -y
-npm i -D genkit-cli
-npm i genkit @genkit-ai/googleai @genkit-ai/express
+<pre><code language="language-sh" class="language-sh">% npm create genkitx
+
+? Select template › - Use arrow-keys. Return to submit.
+❯   Minimal - This is a Minimal template
+    MCP
+
+? Enter your project name › hello-genkit
+
+✅ Project &#34;hello-genkit&#34; has been successfully generated
+
+cd hello-genkit
 </code></pre>
 <p>Set the Gemini API key you obtained earlier as an environment variable.</p>
-<pre><code language="language-sh" class="language-sh">export GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
+<pre><code language="language-sh" class="language-sh">export GEMINI_API_KEY=&lt;your-api-key&gt;
 </code></pre>
 <p>If you&#39;re using Windows, set the Gemini API key as an environment running the following command on PowerShell.</p>
-<pre><code language="language-PowerShell" class="language-PowerShell">$env:GOOGLE_GENAI_API_KEY=&lt;your API key&gt;
+<pre><code language="language-PowerShell" class="language-PowerShell">$env:GEMINI_API_KEY=&lt;your API key&gt;
 </code></pre>
-<p>Please create <code>src/index.ts</code> file and paste the following code.</p>
+<p>Let&#39;s check the file src/index.ts. This code represents the actual implementation of a generative AI request using Genkit, which can be written in about 20 lines.</p>
 <pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
-import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+import { googleAI, gemini20Flash } from &#39;@genkit-ai/googleai&#39;
 import { startFlowServer } from &#39;@genkit-ai/express&#39;
 import { logger } from &#39;genkit/logging&#39;
 logger.setLogLevel(&#39;debug&#39;)
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini15Flash,
+  model: gemini20Flash,
 })
 
 const mainFlow = ai.defineFlow({
@@ -100,7 +107,7 @@ const mainFlow = ai.defineFlow({
 startFlowServer({ flows: [mainFlow] })
 </code></pre>
 <p>Genkit will start with the following command, and Developer Tools will automatically launch.</p>
-<pre><code language="language-sh" class="language-sh">npx genkit start -o -- npx tsx --watch src/index.ts
+<pre><code language="language-sh" class="language-sh">npm start
 </code></pre>
 <p>In the Flows menu, select <code>mainFlow</code> defined in the code above. Enter a string and select the <code>Run</code> button to send a prompt to Gemini.</p>
 <ul>
