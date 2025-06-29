@@ -238,6 +238,111 @@ Look at the View trace. You’ll see that while two requests were made to the Ge
 
 Try defining your own tools and implementing Function Calling.
 
+## Model Context Protocol
+Duration: 0:05:00
+
+Model Context Protocol (MCP) is a standardized protocol that allows generative AI applications to securely and efficiently access external data sources and tools. The main difference from Function Calling we experienced earlier is that MCP provides **protocol-level standardization**.
+
+**Function Calling** is a mechanism where developers define and call tools for individual needs. On the other hand, **MCP** is a general-purpose protocol designed to share tools and data sources across different AI models and applications.
+
+The [official MCP GitHub](https://github.com/modelcontextprotocol/servers) lists MCP servers for various services, and by leveraging this ecosystem, you can easily connect to external services.
+
+In this section, we'll use GitHub's MCP server to access GitHub from Genkit.
+
+Create a separate directory from what we've been working with and run `npm create genkitx`. Select `MCP` as the template. The project name is up to you.
+
+```sh
+% npm create genkitx
+
+> npx
+> create-genkitx
+
+? Select template › - Use arrow-keys. Return to submit.
+    Minimal
+    VertexAI
+❯   MCP - This is a MCP template
+    Firebase
+
+? Enter your project name › <your project name>
+```
+
+When the project is successfully created, the following message will be displayed. Follow the guide to execute the commands.
+
+※GitHub personal access token can be created at [GitHub Settings](https://github.com/settings/personal-access-tokens).
+
+```sh
+✅ Project <your project name> has been successfully generated
+
+You can start your project with the following commands:
+cd <your project name>
+echo "GEMINI_API_KEY=<your-api-key>" > .env
+echo "GITHUB_PERSONAL_ACCESS_TOKEN=<your-github-personal-access-token>" >> .env
+npm start
+Enjoy building with Genkit! 👍
+```
+
+### Source Code
+
+Open `src/index.ts` to see the differences from previous examples.
+
+MCP client definition has been added.
+
+```typescript
+const githubClient = mcpClient({
+  name: 'github',
+  serverProcess: {
+    command: 'npx',
+    args: ['-y', '@modelcontextprotocol/server-github'],
+    env: process.env as Record<string, string>,
+  },
+})
+```
+
+The `githubClient` has been added to `plugins` during Genkit initialization.
+
+```typescript
+const ai = genkit({
+  plugins: [
+    githubClient,
+    googleAI(),
+  ],
+  model: gemini25FlashPreview0417,
+})
+```
+
+Also, `github/search_repositories` has been added to `tools`.
+
+```typescript
+  const { text } = await ai.generate({
+    prompt,
+    tools: ['github/search_repositories']
+  })
+```
+
+With these changes, you can now search repositories on GitHub via MCP.
+
+### Testing
+
+Run `npm start` to launch Developer Tools. Select `mainFlow` from the `Flows` menu and request the generative AI: `Tell me the top 10 GitHub repositories related to Genkit.`
+
+The results are returned.
+
+![MCP | Flows](img/en/mcp-flow.png)
+
+Select `View trace` to confirm that `github/search_repositories` is being used appropriately.
+
+![MCP | Trace](img/en/mcp-trace.png)
+
+### Summary
+
+While Function Calling provides high customizability, MCP enables flexible tool sharing through standardization.
+MCP's reusability allows you to easily incorporate existing tools, enabling you to focus on developing new features.
+
+### Challenge
+If you have time, try other MCP servers (e.g., file system, database) to experience MCP's flexibility.
+
+[modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+
 ## Congrats!
 Duration: 0:01:00
 
