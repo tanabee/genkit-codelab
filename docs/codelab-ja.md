@@ -234,6 +234,112 @@ View trace を見てみます。すると Gemini API リクエストが 2 回行
 ### チャレンジ
 余裕のある方は自分で tool を定義して Function Calling を実装してみましょう。
 
+## Model Context Protocol
+Duration: 0:05:00
+
+Model Context Protocol (MCP) は、生成AIアプリケーションが外部のデータソースやツールに安全かつ効率的にアクセスするための標準化されたプロトコルです。先ほど体験した Function Calling との主な違いは、MCP が**プロトコルレベルでの標準化**を提供する点にあります。
+
+**Function Calling** は、開発者が個別のニーズに対してツールを定義し、呼び出す仕組みです。一方、**MCP** は汎用的なプロトコルで、異なる AI モデルやアプリケーション間でツールやデータソースを共有できるように設計されています。
+
+[MCP の公式 GitHub](https://github.com/modelcontextprotocol/servers) には様々なサービスの MCP サーバーがリストアップされており、このエコシステムを活用することで簡単に外部サービスと接続できます。
+
+このセクションでは、GitHub の MCP サーバーを用いて、Genkit から GitHub にアクセスします。
+
+これまでとは別のディレクトリを作成し、 `npm create genkitx` を実行します。テンプレートは `MCP` を選択します。プロジェクト名は任意です。
+
+```sh
+% npm create genkitx
+
+> npx
+> create-genkitx
+
+? Select template › - Use arrow-keys. Return to submit.
+    Minimal
+    VertexAI
+❯   MCP - This is a MCP template
+    Firebase
+
+? Enter your project name › <your project name>
+```
+
+プロジェクトの作成に成功すると以下のメッセージが表示されるので、ガイドの通りに実行します。
+
+※GitHub の personal access token は [GitHub Setting](https://github.com/settings/personal-access-tokens) で作成できます。
+
+```sh
+✅ Project <your project name> has been successfully generated
+
+You can start your project with the following commands:
+cd <your project name>
+echo "GEMINI_API_KEY=<your-api-key>" > .env
+echo "GITHUB_PERSONAL_ACCESS_TOKEN=<your-github-personal-access-token>" >> .env
+npm start
+Enjoy building with Genkit! 👍
+```
+
+### ソースコードの確認
+
+`src/index.ts` を開いて、前回までとの違いを確認します。
+
+MCP クライアントの定義が追加されています。
+
+```typescript
+const githubClient = mcpClient({
+  name: 'github',
+  serverProcess: {
+    command: 'npx',
+    args: ['-y', '@modelcontextprotocol/server-github'],
+    env: process.env as Record<string, string>,
+  },
+})
+```
+
+Genkit の初期化時に `plugins` に `githubClient` が追加されています。
+
+```typescript
+const ai = genkit({
+  plugins: [
+    githubClient,
+    googleAI(),
+  ],
+  model: gemini25FlashPreview0417,
+})
+```
+
+また、 `tools` に `github/search_repositories` が追加されています。
+
+```typescript
+  const { text } = await ai.generate({
+    prompt,
+    tools: ['github/search_repositories']
+  })
+```
+
+以上の変更により、 GitHub に対して MCP 経由でリポジトリ検索できるようになります。
+
+### 動作確認
+
+`npm start` を実行すると、Developer Tools が立ち上がります。 `Flows` メニューから `mainFlow` を選択し、生成 AI に `Tell me the top 10 GitHub repositories related to Genkit.` とリクエストします。
+
+結果が返ってきました。
+
+![MCP | Flows](img/ja/mcp-flow.png)
+![screenshot]()
+
+`View trace` を選択すると `github/search_repositories` が適切に利用されていることが確認できます。
+
+![MCP | Flows](img/ja/mcp-trace.png)
+
+### まとめ
+
+Function Calling は高いカスタマイズ性を提供する一方、MCP は標準化により異なるAIモデル間での柔軟なツール共有を実現します。
+MCP の再利用性により、既存のツールを簡単に組み込め、新機能の開発に集中できるようになります。
+
+### チャレンジ
+余裕のある方は、他のMCPサーバー（例：ファイルシステム、データベース）を試してみて、MCPの柔軟性を体験してみましょう。
+
+[modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+
 ## Congrats!
 Duration: 0:01:00
 

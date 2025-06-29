@@ -1,2 +1,3 @@
 node_modules
 .genkit
+.DS_Store
