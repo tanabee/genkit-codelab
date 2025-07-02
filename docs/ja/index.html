@@ -121,8 +121,8 @@ startFlowServer({ flows: [mainFlow] })
     
       <google-codelab-step label="Code Execution" duration="3">
         <p>Gemini の Code Execution を用いると、 Python コードを生成・実行することが可能になります。コードの変更は 1 行だけです。</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash,
-+  model: gemini15Flash.withConfig({ codeExecution: true }),
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417,
++  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
 </code></pre>
 <p>Developer Tools を開いて <code>mainFlow</code> にプログラミングを要するプロンプトを入力しましょう。以下にリクエスト例を挙げます。</p>
 <ul>
@@ -154,12 +154,12 @@ startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-sh" class="language-sh">npm i cheerio
 </code></pre>
 <p>Code Execution は一度削除しておきます。</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash.withConfig({ codeExecution: true }),
-+  model: gemini15Flash,
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
++  model: gemini25FlashPreview0417,
 </code></pre>
 <p>cheerio を import します。</p>
 <pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;
-  import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+  import { googleAI, gemini25FlashPreview0417 } from &#39;@genkit-ai/googleai&#39;
 + import * as cheerio from &#39;cheerio&#39;
 </code></pre>
 <p>src/index.ts の <code>ai</code> 変数定義の下に以下の関数を追加します。第一引数に tool の設定値を指定し、第二引数に実行する処理を記載します。</p>

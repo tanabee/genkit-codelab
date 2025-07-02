@@ -125,8 +125,8 @@ Duration: 0:03:00
 With Gemini’s Code Execution, you can generate and execute Python code. Only one line needs to be changed.
 
 ```javascript
--  model: gemini15Flash,
-+  model: gemini15Flash.withConfig({ codeExecution: true }),
+-  model: gemini25FlashPreview0417,
++  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
 ```
 
 Open Developer Tools, input prompts that require programming into mainFlow, and try the following requests:
@@ -167,15 +167,15 @@ npm i cheerio
 Remove Code Execution for now.
 
 ```javascript
--  model: gemini15Flash.withConfig({ codeExecution: true }),
-+  model: gemini15Flash,
+-  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
++  model: gemini25FlashPreview0417,
 ```
 
 Import cheerio.
 
 ```javascript
   import { genkit, z } from 'genkit'
-  import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+  import { googleAI, gemini25FlashPreview0417 } from '@genkit-ai/googleai'
 + import * as cheerio from 'cheerio'
 ```
 

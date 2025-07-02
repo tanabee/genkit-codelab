@@ -122,8 +122,8 @@ startFlowServer({ flows: [mainFlow] })
     
       <google-codelab-step label="Code Execution" duration="3">
         <p>With Gemini&#39;s Code Execution, you can generate and execute Python code. Only one line needs to be changed.</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash,
-+  model: gemini15Flash.withConfig({ codeExecution: true }),
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417,
++  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
 </code></pre>
 <p>Open Developer Tools, input prompts that require programming into mainFlow, and try the following requests:</p>
 <ul>
@@ -157,12 +157,12 @@ startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-sh" class="language-sh">npm i cheerio
 </code></pre>
 <p>Remove Code Execution for now.</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini15Flash.withConfig({ codeExecution: true }),
-+  model: gemini15Flash,
+<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
++  model: gemini25FlashPreview0417,
 </code></pre>
 <p>Import cheerio.</p>
 <pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;
-  import { googleAI, gemini15Flash } from &#39;@genkit-ai/googleai&#39;
+  import { googleAI, gemini25FlashPreview0417 } from &#39;@genkit-ai/googleai&#39;
 + import * as cheerio from &#39;cheerio&#39;
 </code></pre>
 <p>Add the following function under the definition of the <code>ai</code> variable in <code>src/index.ts</code>. The first argument specifies the tool&#39;s configuration values, and the second argument specifies the process to execute.</p>

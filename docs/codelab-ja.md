@@ -124,8 +124,8 @@ Duration: 0:03:00
 Gemini の Code Execution を用いると、 Python コードを生成・実行することが可能になります。コードの変更は 1 行だけです。
 
 ```javascript
--  model: gemini15Flash,
-+  model: gemini15Flash.withConfig({ codeExecution: true }),
+-  model: gemini25FlashPreview0417,
++  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
 ```
 
 Developer Tools を開いて `mainFlow` にプログラミングを要するプロンプトを入力しましょう。以下にリクエスト例を挙げます。
@@ -164,15 +164,15 @@ npm i cheerio
 Code Execution は一度削除しておきます。
 
 ```javascript
--  model: gemini15Flash.withConfig({ codeExecution: true }),
-+  model: gemini15Flash,
+-  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
++  model: gemini25FlashPreview0417,
 ```
 
 cheerio を import します。
 
 ```javascript
   import { genkit, z } from 'genkit'
-  import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+  import { googleAI, gemini25FlashPreview0417 } from '@genkit-ai/googleai'
 + import * as cheerio from 'cheerio'
 ```
 
