@@ -264,7 +264,7 @@ Model Context Protocol (MCP) は、生成AIアプリケーションが外部の�
 
 プロジェクトの作成に成功すると以下のメッセージが表示されるので、ガイドの通りに実行します。
 
-※GitHub の personal access token は [GitHub Setting](https://github.com/settings/personal-access-tokens) で作成できます。
+※GitHub の personal access token は [GitHub Settings](https://github.com/settings/personal-access-tokens) で作成できます。
 
 ```sh
 ✅ Project <your project name> has been successfully generated
