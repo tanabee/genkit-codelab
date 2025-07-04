@@ -42,10 +42,11 @@ curl \
 
 If you're using Windows, please confirm with the following command on PowerShell.
 ```PowerShell
-curl `
-  -H "Content-Type: application/json" `
-  -d '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
-  -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
+(curl `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
+  -Method POST `
+  -Uri 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY').Content
 ```
 
 ## Hello Genkit!
@@ -75,7 +76,7 @@ export GEMINI_API_KEY=<your-api-key>
 
 If you're using Windows, set the Gemini API key as an environment running the following command on PowerShell.
 ```PowerShell
-$env:GEMINI_API_KEY=<your API key>
+$env:GEMINI_API_KEY="<your API key>"
 ```
 
 Let's check the file src/index.ts. This code represents the actual implementation of a generative AI request using Genkit, which can be written in about 20 lines.

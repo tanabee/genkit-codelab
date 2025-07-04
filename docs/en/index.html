@@ -55,10 +55,11 @@
   -X POST &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;
 </code></pre>
 <p>If you&#39;re using Windows, please confirm with the following command on PowerShell.</p>
-<pre><code language="language-PowerShell" class="language-PowerShell">curl `
-  -H &#34;Content-Type: application/json&#34; `
-  -d &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Explain Firebase in under 100 words.&#34;}]}]}&#39; `
-  -X POST &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;
+<pre><code language="language-PowerShell" class="language-PowerShell">(curl `
+  -Headers @{&#34;Content-Type&#34;=&#34;application/json&#34;} `
+  -Body &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Explain Firebase in under 100 words.&#34;}]}]}&#39; `
+  -Method POST `
+  -Uri &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;).Content
 </code></pre>
 
 
@@ -82,7 +83,7 @@ $ cd hello-genkit
 <pre><code language="language-sh" class="language-sh">export GEMINI_API_KEY=&lt;your-api-key&gt;
 </code></pre>
 <p>If you&#39;re using Windows, set the Gemini API key as an environment running the following command on PowerShell.</p>
-<pre><code language="language-PowerShell" class="language-PowerShell">$env:GEMINI_API_KEY=&lt;your API key&gt;
+<pre><code language="language-PowerShell" class="language-PowerShell">$env:GEMINI_API_KEY=&#34;&lt;your API key&gt;&#34;
 </code></pre>
 <p>Let&#39;s check the file src/index.ts. This code represents the actual implementation of a generative AI request using Genkit, which can be written in about 20 lines.</p>
 <pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
