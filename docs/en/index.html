@@ -86,15 +86,17 @@ $ cd hello-genkit
 <pre><code language="language-PowerShell" class="language-PowerShell">$env:GEMINI_API_KEY=&#34;&lt;your API key&gt;&#34;
 </code></pre>
 <p>Let&#39;s check the file src/index.ts. This code represents the actual implementation of a generative AI request using Genkit, which can be written in about 20 lines.</p>
-<pre><code language="language-javaScript" class="language-javaScript">import { genkit, z } from &#39;genkit&#39;
-import { googleAI, gemini20Flash } from &#39;@genkit-ai/googleai&#39;
+<pre><code language="language-typescript" class="language-typescript">import { genkit, z } from &#39;genkit&#39;
+import { googleAI } from &#39;@genkit-ai/googleai&#39;
 import { startFlowServer } from &#39;@genkit-ai/express&#39;
 import { logger } from &#39;genkit/logging&#39;
 logger.setLogLevel(&#39;debug&#39;)
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini20Flash,
+  model: googleAI.model(&#39;gemini-2.5-flash-lite&#39;, {
+    temperature: 0.8,
+  }),
 })
 
 const mainFlow = ai.defineFlow({
@@ -123,8 +125,10 @@ startFlowServer({ flows: [mainFlow] })
     
       <google-codelab-step label="Code Execution" duration="3">
         <p>With Gemini&#39;s Code Execution, you can generate and execute Python code. Only one line needs to be changed.</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417,
-+  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
+<pre><code language="language-typescript" class="language-typescript">  model: googleAI.model(&#39;gemini-2.5-flash-lite&#39;, {
+    temperature: 0.8,
++   codeExecution: true,
+  }),
 </code></pre>
 <p>Open Developer Tools, input prompts that require programming into mainFlow, and try the following requests:</p>
 <ul>
@@ -158,16 +162,18 @@ startFlowServer({ flows: [mainFlow] })
 <pre><code language="language-sh" class="language-sh">npm i cheerio
 </code></pre>
 <p>Remove Code Execution for now.</p>
-<pre><code language="language-javascript" class="language-javascript">-  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
-+  model: gemini25FlashPreview0417,
+<pre><code language="language-typescript" class="language-typescript">  model: googleAI.model(&#39;gemini-2.5-flash-lite&#39;, {
+    temperature: 0.8,
+-   codeExecution: true,
+  }),
 </code></pre>
 <p>Import cheerio.</p>
-<pre><code language="language-javascript" class="language-javascript">  import { genkit, z } from &#39;genkit&#39;
+<pre><code language="language-typescript" class="language-typescript">  import { genkit, z } from &#39;genkit&#39;
   import { googleAI, gemini25FlashPreview0417 } from &#39;@genkit-ai/googleai&#39;
 + import * as cheerio from &#39;cheerio&#39;
 </code></pre>
 <p>Add the following function under the definition of the <code>ai</code> variable in <code>src/index.ts</code>. The first argument specifies the tool&#39;s configuration values, and the second argument specifies the process to execute.</p>
-<pre><code language="language-javascript" class="language-javascript">const webLoader = ai.defineTool(
+<pre><code language="language-typescript" class="language-typescript">const webLoader = ai.defineTool(
   {
     name: &#34;webLoader&#34;,
     description:
@@ -194,11 +200,11 @@ startFlowServer({ flows: [mainFlow] })
 <p>The final source code can be found at the following GitHub URL.</p>
 <p><a href="https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts" target="_blank">https://github.com/tanabee/genkit-codelab/blob/main/steps/function-calling/src/index.ts</a></p>
 <p>Now that the code is complete, open Developer Tools. You&#39;ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.</p>
-<p>URL: <a href="https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179" target="_blank">https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</a></p>
+<p>URL: <a href="https://firebase.blog/posts/2025/04/genkit-python-go" target="_blank">https://firebase.blog/posts/2025/04/genkit-python-go</a></p>
 <p class="image-container"><img alt="Function Calling | Tool" src="img/86295bf724e12421.png"></p>
 <p>The content of the URL was extracted. In Genkit Developer Tools, you can test tools individually to verify their functionality before incorporating them into a Flow, making development more efficient.</p>
 <p>Next, select mainFlow from the Flow menu. Enter the following prompt and execute it.</p>
-<p>Prompt: <code>First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179</code></p>
+<p>Prompt: <code>First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://firebase.blog/posts/2025/04/genkit-python-go</code></p>
 <p>You can see that the content has been summarized based on the extracted content.</p>
 <p class="image-container"><img alt="Function Calling | Flow" src="img/e3d499998dc1343c.png"></p>
 <p>Look at the View trace. You&#39;ll see that while two requests were made to the Gemini API, webLoader was called in between, confirming that the tool was indeed called.</p>
@@ -242,29 +248,42 @@ Enjoy building with Genkit! 👍
 <h2 is-upgraded>Source Code</h2>
 <p>Open <code>src/index.ts</code> to see the differences from previous examples.</p>
 <p>MCP client definition has been added.</p>
-<pre><code language="language-typescript" class="language-typescript">const githubClient = mcpClient({
+<pre><code language="language-typescript" class="language-typescript">const githubClient = createMcpClient({
   name: &#39;github&#39;,
-  serverProcess: {
+  rawToolResponses: true,
+  mcpServer: {
     command: &#39;npx&#39;,
     args: [&#39;-y&#39;, &#39;@modelcontextprotocol/server-github&#39;],
     env: process.env as Record&lt;string, string&gt;,
   },
 })
 </code></pre>
-<p>The <code>githubClient</code> has been added to <code>plugins</code> during Genkit initialization.</p>
-<pre><code language="language-typescript" class="language-typescript">const ai = genkit({
-  plugins: [
-    githubClient,
-    googleAI(),
-  ],
-  model: gemini25FlashPreview0417,
-})
-</code></pre>
-<p>Also, <code>github/search_repositories</code> has been added to <code>tools</code>.</p>
-<pre><code language="language-typescript" class="language-typescript">  const { text } = await ai.generate({
+<p>It retrieves the available MCP tools within the flow and specifies them when making a generative AI request.</p>
+<pre><code language="language-typescript" class="language-typescript">const mainFlow = ai.defineFlow({
+  name: &#39;mainFlow&#39;,
+  inputSchema: z.string(),
+}, async (prompt) =&gt; {
+  await githubClient.ready()
+  const allTools = await githubClient.getActiveTools(ai)
+
+  const enabledTools = [
+    &#39;github-mcp-server/search_repositories&#39;,
+    &#39;github-mcp-server/search_pull_requests&#39;,
+    &#39;github-mcp-server/search_issues&#39;,
+    &#39;github-mcp-server/search_code&#39;,
+    &#39;github-mcp-server/list_pull_requests&#39;,
+    &#39;github-mcp-server/list_issues&#39;,
+    &#39;github-mcp-server/list_commits&#39;,
+  ]
+  const tools = allTools.filter(t =&gt; enabledTools.includes(t.__action.name))
+
+  const { text } = await ai.generate({
     prompt,
-    tools: [&#39;github/search_repositories&#39;]
+    tools,
   })
+
+  return text
+})
 </code></pre>
 <p>With these changes, you can now search repositories on GitHub via MCP.</p>
 <h2 is-upgraded>Testing</h2>

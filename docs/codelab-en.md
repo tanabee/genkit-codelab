@@ -81,16 +81,18 @@ $env:GEMINI_API_KEY="<your API key>"
 
 Let's check the file src/index.ts. This code represents the actual implementation of a generative AI request using Genkit, which can be written in about 20 lines.
 
-```javaScript
+```typescript
 import { genkit, z } from 'genkit'
-import { googleAI, gemini20Flash } from '@genkit-ai/googleai'
+import { googleAI } from '@genkit-ai/googleai'
 import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini20Flash,
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
+  }),
 })
 
 const mainFlow = ai.defineFlow({
@@ -125,9 +127,11 @@ Duration: 0:03:00
 
 With Gemini’s Code Execution, you can generate and execute Python code. Only one line needs to be changed.
 
-```javascript
--  model: gemini25FlashPreview0417,
-+  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
+```typescript
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
++   codeExecution: true,
+  }),
 ```
 
 Open Developer Tools, input prompts that require programming into mainFlow, and try the following requests:
@@ -167,14 +171,16 @@ npm i cheerio
 
 Remove Code Execution for now.
 
-```javascript
--  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
-+  model: gemini25FlashPreview0417,
+```typescript
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
+-   codeExecution: true,
+  }),
 ```
 
 Import cheerio.
 
-```javascript
+```typescript
   import { genkit, z } from 'genkit'
   import { googleAI, gemini25FlashPreview0417 } from '@genkit-ai/googleai'
 + import * as cheerio from 'cheerio'
@@ -182,7 +188,7 @@ Import cheerio.
 
 Add the following function under the definition of the `ai` variable in `src/index.ts`. The first argument specifies the tool’s configuration values, and the second argument specifies the process to execute.
 
-```javascript
+```typescript
 const webLoader = ai.defineTool(
   {
     name: "webLoader",
@@ -217,7 +223,7 @@ The final source code can be found at the following GitHub URL.
 
 Now that the code is complete, open Developer Tools. You’ll see that webLoader has been added to the Tools menu. Select webLoader, enter the following URL, and execute it.
 
-URL: [https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179](https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179)
+URL: [https://firebase.blog/posts/2025/04/genkit-python-go](https://firebase.blog/posts/2025/04/genkit-python-go)
 
 ![Function Calling | Tool](img/en/function-calling-tool.png)
 
@@ -225,7 +231,7 @@ The content of the URL was extracted. In Genkit Developer Tools, you can test to
 
 Next, select mainFlow from the Flow menu. Enter the following prompt and execute it.
 
-Prompt: `First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://medium.com/firebase-developers/implementing-function-calling-using-genkit-0c03f6cb9179`
+Prompt: `First, fetch the content inside URL. Next, summarize the content in less than 200 words. https://firebase.blog/posts/2025/04/genkit-python-go`
 
 You can see that the content has been summarized based on the extracted content.
 
@@ -289,9 +295,10 @@ Open `src/index.ts` to see the differences from previous examples.
 MCP client definition has been added.
 
 ```typescript
-const githubClient = mcpClient({
+const githubClient = createMcpClient({
   name: 'github',
-  serverProcess: {
+  rawToolResponses: true,
+  mcpServer: {
     command: 'npx',
     args: ['-y', '@modelcontextprotocol/server-github'],
     env: process.env as Record<string, string>,
@@ -299,25 +306,34 @@ const githubClient = mcpClient({
 })
 ```
 
-The `githubClient` has been added to `plugins` during Genkit initialization.
+It retrieves the available MCP tools within the flow and specifies them when making a generative AI request.
 
 ```typescript
-const ai = genkit({
-  plugins: [
-    githubClient,
-    googleAI(),
-  ],
-  model: gemini25FlashPreview0417,
-})
-```
+const mainFlow = ai.defineFlow({
+  name: 'mainFlow',
+  inputSchema: z.string(),
+}, async (prompt) => {
+  await githubClient.ready()
+  const allTools = await githubClient.getActiveTools(ai)
 
-Also, `github/search_repositories` has been added to `tools`.
+  const enabledTools = [
+    'github-mcp-server/search_repositories',
+    'github-mcp-server/search_pull_requests',
+    'github-mcp-server/search_issues',
+    'github-mcp-server/search_code',
+    'github-mcp-server/list_pull_requests',
+    'github-mcp-server/list_issues',
+    'github-mcp-server/list_commits',
+  ]
+  const tools = allTools.filter(t => enabledTools.includes(t.__action.name))
 
-```typescript
   const { text } = await ai.generate({
     prompt,
-    tools: ['github/search_repositories']
+    tools,
   })
+
+  return text
+})
 ```
 
 With these changes, you can now search repositories on GitHub via MCP.
