@@ -27,7 +27,7 @@ Please access the following site to get the Gemini API key.
 
 * [Get API key | Gemini](https://aistudio.google.com/app/apikey)
 
-As of November 2024, the free plan of the Gemini API is sufficient for this hands-on session, so there’s no need for a paid plan.
+As of November 2025, there is a free tier for API keys, and as long as you stay within the scope of this hands-on, you don’t need to worry about any charges.
 
 * [Pricing models | Gemini](https://ai.google.dev/pricing)
 

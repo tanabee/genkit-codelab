@@ -27,7 +27,7 @@ Duration: 0:02:00
 
 * [Get API key | Gemini](https://aistudio.google.com/app/apikey)
 
-2024 年 11 月現在では、 Gemini API の無料プランでもこのハンズオンを試すのに十分なので、有料プランでなくても問題ありません。
+2025 年 11 月時点において、API キーには無料枠が存在し、ハンズオンを実行する範囲であれば課金の心配はありません。
 
 * [Pricing models | Gemini](https://ai.google.dev/pricing)
 
