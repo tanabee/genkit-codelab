@@ -357,7 +357,7 @@ The results are returned.
 
 ![MCP | Flows](img/en/mcp-flow.png)
 
-Select `View trace` to confirm that `github/search_repositories` is being used appropriately.
+Select `View trace` to confirm that `github-mcp-server/search_repositories` is being used appropriately.
 
 ![MCP | Trace](img/en/mcp-trace.png)
 

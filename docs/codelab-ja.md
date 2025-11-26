@@ -354,7 +354,7 @@ const mainFlow = ai.defineFlow({
 ![MCP | Flows](img/ja/mcp-flow.png)
 ![screenshot]()
 
-`View trace` を選択すると `github/search_repositories` が適切に利用されていることが確認できます。
+`View trace` を選択すると `github-mcp-server/search_repositories` が適切に利用されていることが確認できます。
 
 ![MCP | Flows](img/ja/mcp-trace.png)
 
