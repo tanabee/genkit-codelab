@@ -1,21 +1,18 @@
 {
   "name": "function-calling",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "author": "tanabee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "genkit-cli": "^1.3.0"
+    "start": "genkit start -o -- npx tsx --watch src/index.ts"
   },
   "dependencies": {
-    "@genkit-ai/express": "^1.3.0",
-    "@genkit-ai/googleai": "^1.3.0",
-    "cheerio": "^1.0.0",
-    "genkit": "^1.3.0"
+    "@genkit-ai/express": "1.x",
+    "@genkit-ai/googleai": "1.x",
+    "cheerio": "^1.1.2",
+    "genkit": "1.x",
+    "genkit-cli": "1.x"
+  },
+  "bugs": {
+    "url": "https://github.com/tanabee/create-genkitx/issues"
   }
 }

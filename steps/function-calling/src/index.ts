@@ -1,13 +1,16 @@
 import { genkit, z } from 'genkit'
-import { googleAI, gemini15Flash } from '@genkit-ai/googleai'
+import { googleAI } from '@genkit-ai/googleai'
 import { startFlowServer } from '@genkit-ai/express'
-import * as cheerio from 'cheerio'
 import { logger } from 'genkit/logging'
+import * as cheerio from 'cheerio'
+
 logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini15Flash,
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
+  }),
 })
 
 const webLoader = ai.defineTool(
@@ -34,10 +37,7 @@ const mainFlow = ai.defineFlow({
   name: 'mainFlow',
   inputSchema: z.string(),
 }, async (input) => {
-  const { text } = await ai.generate({
-    prompt: input,
-    tools: [webLoader],
-  })
+  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
   return text
 })
 
