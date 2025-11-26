@@ -34,10 +34,21 @@ As of November 2025, there is a free tier for API keys, and as long as you stay 
 Run the following curl command in your terminal, replacing `YOUR_API_KEY` with your actual key, and confirm that a response is successfully returned.
 
 ```sh
-curl \
-  -H 'Content-Type: application/json' \
-  -d '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' \
-  -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
+-H 'Content-Type: application/json' \
+-H 'X-goog-api-key: YOUR_API_KEY' \
+-X POST \
+-d '{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "Explain Firebase in under 100 words."
+        }
+      ]
+    }
+  ]
+}'
 ```
 
 If you're using Windows, please confirm with the following command on PowerShell.
@@ -46,7 +57,7 @@ If you're using Windows, please confirm with the following command on PowerShell
   -Headers @{"Content-Type"="application/json"} `
   -Body '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
   -Method POST `
-  -Uri 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY').Content
+  -Uri 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY').Content
 ```
 
 ## Hello Genkit!

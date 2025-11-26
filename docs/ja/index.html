@@ -49,17 +49,28 @@
 <li><a href="https://ai.google.dev/pricing" target="_blank">Pricing models | Gemini</a></li>
 </ul>
 <p>ターミナルで以下の curl コマンドを貼り付けて <code>YOUR_API_KEY</code> 部分を置き換えて実行してみます。正常にレスポンスが返ってくることを確認しましょう。</p>
-<pre><code language="language-sh" class="language-sh">curl \
-  -H &#39;Content-Type: application/json&#39; \
-  -d &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Explain Firebase in under 100 words.&#34;}]}]}&#39; \
-  -X POST &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;
+<pre><code language="language-sh" class="language-sh">curl &#34;https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent&#34; \
+-H &#39;Content-Type: application/json&#39; \
+-H &#39;X-goog-api-key: YOUR_API_KEY&#39; \
+-X POST \
+-d &#39;{
+  &#34;contents&#34;: [
+    {
+      &#34;parts&#34;: [
+        {
+          &#34;text&#34;: &#34;Firebase について 200 文字以内で説明してください。&#34;
+        }
+      ]
+    }
+  ]
+}&#39;
 </code></pre>
 <p>Windows の場合は PowerShell 上で以下のコマンドを実行して確認しましょう。</p>
 <pre><code language="language-PowerShell" class="language-PowerShell">(curl `
   -Headers @{&#34;Content-Type&#34;=&#34;application/json&#34;} `
-  -Body &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Explain Firebase in under 100 words.&#34;}]}]}&#39; `
+  -Body &#39;{&#34;contents&#34;:[{&#34;parts&#34;:[{&#34;text&#34;:&#34;Firebase について 200 文字以内で説明してください。&#34;}]}]}&#39; `
   -Method POST `
-  -Uri &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY&#39;).Content
+  -Uri &#39;https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY&#39;).Content
 </code></pre>
 
 

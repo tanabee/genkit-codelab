@@ -34,19 +34,30 @@ Duration: 0:02:00
 ターミナルで以下の curl コマンドを貼り付けて `YOUR_API_KEY` 部分を置き換えて実行してみます。正常にレスポンスが返ってくることを確認しましょう。
 
 ```sh
-curl \
-  -H 'Content-Type: application/json' \
-  -d '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' \
-  -X POST 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY'
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
+-H 'Content-Type: application/json' \
+-H 'X-goog-api-key: YOUR_API_KEY' \
+-X POST \
+-d '{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "Firebase について 200 文字以内で説明してください。"
+        }
+      ]
+    }
+  ]
+}'
 ```
 
 Windows の場合は PowerShell 上で以下のコマンドを実行して確認しましょう。
 ```PowerShell
 (curl `
   -Headers @{"Content-Type"="application/json"} `
-  -Body '{"contents":[{"parts":[{"text":"Explain Firebase in under 100 words."}]}]}' `
+  -Body '{"contents":[{"parts":[{"text":"Firebase について 200 文字以内で説明してください。"}]}]}' `
   -Method POST `
-  -Uri 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY').Content
+  -Uri 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY').Content
 ```
 
 ## Hello Genkit!
