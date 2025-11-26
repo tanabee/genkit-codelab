@@ -81,16 +81,18 @@ $env:GEMINI_API_KEY="<your API key>"
 
 ファイル `src/index.ts` を確認します。このコードが Genkit による生成 AI リクエストの実態となるコードで 20 行程度で書くことができます。
 
-```JavaScript
+```typescript
 import { genkit, z } from 'genkit'
-import { googleAI, gemini20Flash } from '@genkit-ai/googleai'
+import { googleAI } from '@genkit-ai/googleai'
 import { startFlowServer } from '@genkit-ai/express'
 import { logger } from 'genkit/logging'
 logger.setLogLevel('debug')
 
 const ai = genkit({
   plugins: [googleAI()],
-  model: gemini20Flash,
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
+  }),
 })
 
 const mainFlow = ai.defineFlow({
@@ -124,9 +126,11 @@ Duration: 0:03:00
 
 Gemini の Code Execution を用いると、 Python コードを生成・実行することが可能になります。コードの変更は 1 行だけです。
 
-```javascript
--  model: gemini25FlashPreview0417,
-+  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
+```typescript
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
++   codeExecution: true,
+  }),
 ```
 
 Developer Tools を開いて `mainFlow` にプログラミングを要するプロンプトを入力しましょう。以下にリクエスト例を挙げます。
@@ -164,14 +168,16 @@ npm i cheerio
 
 Code Execution は一度削除しておきます。
 
-```javascript
--  model: gemini25FlashPreview0417.withConfig({ codeExecution: true }),
-+  model: gemini25FlashPreview0417,
+```typescript
+  model: googleAI.model('gemini-2.5-flash-lite', {
+    temperature: 0.8,
+-   codeExecution: true,
+  }),
 ```
 
 cheerio を import します。
 
-```javascript
+```typescript
   import { genkit, z } from 'genkit'
   import { googleAI, gemini25FlashPreview0417 } from '@genkit-ai/googleai'
 + import * as cheerio from 'cheerio'
@@ -179,7 +185,7 @@ cheerio を import します。
 
 src/index.ts の `ai` 変数定義の下に以下の関数を追加します。第一引数に tool の設定値を指定し、第二引数に実行する処理を記載します。
 
-```javascript
+```typescript
 const webLoader = ai.defineTool(
   {
     name: "webLoader",
@@ -203,7 +209,7 @@ const webLoader = ai.defineTool(
 
 `generate` メソッドのパラメータに `tools` を指定して、配列の中身に `webLoader` を指定します。 `tools` は配列で指定できるので複数のツールを設定することができます。その中から必要なツールを生成 AI が選択して実行します。必要かどうかの判断は `defineTool` の `description` をもとに行われます。そのためプロンプトエンジニアリングと同様に `description` のチューニングは重要です。
 
-```javascript
+```typescript
 -  const { text } = await ai.generate(input)
 +  const { text } = await ai.generate({ prompt: input, tools: [webLoader] })
 ```
@@ -285,9 +291,10 @@ Enjoy building with Genkit! 👍
 MCP クライアントの定義が追加されています。
 
 ```typescript
-const githubClient = mcpClient({
+const githubClient = createMcpClient({
   name: 'github',
-  serverProcess: {
+  rawToolResponses: true,
+  mcpServer: {
     command: 'npx',
     args: ['-y', '@modelcontextprotocol/server-github'],
     env: process.env as Record<string, string>,
@@ -295,25 +302,34 @@ const githubClient = mcpClient({
 })
 ```
 
-Genkit の初期化時に `plugins` に `githubClient` が追加されています。
+Flow内で利用可能なMCPツールを取得し、生成AIリクエスト時に指定しています。
 
 ```typescript
-const ai = genkit({
-  plugins: [
-    githubClient,
-    googleAI(),
-  ],
-  model: gemini25FlashPreview0417,
-})
-```
+const mainFlow = ai.defineFlow({
+  name: 'mainFlow',
+  inputSchema: z.string(),
+}, async (prompt) => {
+  await githubClient.ready()
+  const allTools = await githubClient.getActiveTools(ai)
 
-また、 `tools` に `github/search_repositories` が追加されています。
+  const enabledTools = [
+    'github-mcp-server/search_repositories',
+    'github-mcp-server/search_pull_requests',
+    'github-mcp-server/search_issues',
+    'github-mcp-server/search_code',
+    'github-mcp-server/list_pull_requests',
+    'github-mcp-server/list_issues',
+    'github-mcp-server/list_commits',
+  ]
+  const tools = allTools.filter(t => enabledTools.includes(t.__action.name))
 
-```typescript
   const { text } = await ai.generate({
     prompt,
-    tools: ['github/search_repositories']
+    tools,
   })
+
+  return text
+})
 ```
 
 以上の変更により、 GitHub に対して MCP 経由でリポジトリ検索できるようになります。
